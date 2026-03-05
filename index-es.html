@@ -381,6 +381,7 @@ function nextQuestion() {
     );
 
     document.getElementById("L" + index).classList.add("active");
+    document.getElementById("letter-display").innerHTML = "<b>Letra:</b> " + questions[index].letter.toUpperCase();
     document.getElementById("question").textContent = questions[index].hint;
 }
 
@@ -398,3 +399,4 @@ function endGame() {
 </body>
 
 </html>
+
