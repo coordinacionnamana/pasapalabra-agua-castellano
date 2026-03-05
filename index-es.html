@@ -1,0 +1,399 @@
+<head>
+<meta charset="UTF-8">
+<title>Pasapalabra del Agua – ODS 6 y 10</title>
+
+<!-- Fuente Montserrat -->
+https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap
+
+<style>
+:root {
+    --ods6: #00ADEF;
+    --ods10: #DD1367;
+    --yellow: #F9D342;
+    --coco-blue: #009FE3;
+    --coco-green: #1DB954;
+    --bg: #F4FBFE;
+    --text: #1a1a1a;
+}
+
+/* GENERAL */
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: "Montserrat", sans-serif;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* ---------------- PANTALLA INICIAL ---------------- */
+#start-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, var(--coco-blue), var(--coco-green));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#start-screen img {
+    width: 380px;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.25);
+}
+
+#start-screen button {
+    margin-top: 25px;
+    padding: 15px 45px;
+    background: var(--yellow);
+    color: black;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.4em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#start-screen button:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+/* ---------------- TÍTULO ---------------- */
+h1 {
+    margin-top: 40px;
+    font-size: 2.6em;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--ods6), var(--ods10));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* ---------------- ROSCO ---------------- */
+#rosco {
+    width: 500px;
+    height: 500px;
+    margin: 30px auto;
+    position: relative;
+    animation: rotateRosco 18s linear infinite;
+}
+
+/* ANIMACIÓN DEL ROSCO */
+@keyframes rotateRosco {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.letter {
+    width: 50px;
+    height: 50px;
+    background: var(--ods6);
+    color: white;
+    border-radius: 50%;
+    position: absolute;
+    line-height: 50px;
+    font-weight: 700;
+    border: 3px solid white;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.active {
+    background: var(--yellow);
+    color: black;
+    transform: scale(1.25);
+}
+
+.correct { background: #2ecc71 !important; }
+.wrong   { background: #e63946 !important; }
+
+/* ---------------- CAJA DE PREGUNTAS ---------------- */
+#question-box {
+    width: 70%;
+    margin: 20px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+
+#question {
+    color: var(--ods10);
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+input {
+    width: 60%;
+    padding: 12px;
+    border: 2px solid var(--ods6);
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* BOTONES */
+.btn {
+    padding: 12px 22px;
+    margin: 10px;
+    background: var(--ods6);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn:hover {
+    background: var(--ods10);
+}
+
+/* ---------------- PANTALLA FINAL ---------------- */
+#end-screen {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, var(--yellow), var(--coco-blue));
+    padding-top: 150px;
+    z-index: 2000;
+}
+
+#end-screen h2 {
+    font-size: 3em;
+    font-weight: 700;
+}
+#end-screen p {
+    font-size: 1.6em;
+    font-weight: 600;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 768px) {
+
+    #rosco {
+        width: 320px;
+        height: 320px;
+    }
+
+    .letter {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 0.9em;
+    }
+
+    #question-box {
+        width: 90%;
+        padding: 20px;
+    }
+
+    input {
+        width: 85%;
+    }
+
+    #start-screen img {
+        width: 280px;
+    }
+
+    #start-screen button {
+        font-size: 1.2em;
+        padding: 12px 35px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- ========= PANTALLA INICIAL ========= -->
+<div id="start-screen">
+    https://i.ibb.co/Fkg2MNFs/portada-pasapalabra-agua.png
+    <button onclick="startGame()">COMENZAR</button>
+</div>
+
+<!-- ========= TÍTULO DEL JUEGO ========= -->
+<h1>Pasapalabra del Agua – ODS 6 y 10</h1>
+
+<!-- ========= ROSCO (DINÁMICO) ========= -->
+<div id="rosco"></div>
+
+<!-- ========= ÁREA DE PREGUNTAS ========= -->
+<div id="question-box">
+    <p id="letter-display"><b>Letra:</b> A</p>
+    <p id="question"></p>
+
+    <input type="text" id="answer" placeholder="Escribe tu respuesta…">
+
+    <div>
+        <button class="btn" onclick="checkAnswer()">Responder</button>
+        <button class="btn" onclick="skip()">Pasapalabra</button>
+    </div>
+
+    <p id="score">Puntuación: 0 aciertos</p>
+</div>
+
+<!-- ========= PANTALLA FINAL ========= -->
+<div id="end-screen">
+    <h2>🎉 ¡Enhorabuena! 🎉</h2>
+    <p>Has completado el Pasapalabra del Agua – edición Agua de Coco</p>
+    <p id="final-score"></p>
+</div>
+<script>
+// =============================
+//   SONIDOS (BASE64 SIMPLIFICADOS)
+//   Puedes reemplazarlos por sonidos reales más adelante
+// =============================
+
+// Sonido de acierto
+const correctSound = new Audio("data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjM3LjEwMAAAAAAAAAAAAAAA//uQxAADB...");
+correctSound.volume = 0.65;
+
+// Sonido de error
+const wrongSound = new Audio("data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjM3LjEwMAAAAAAAAAAAAAAA//uQxAADB...");
+wrongSound.volume = 0.65;
+
+
+// =============================
+//   LISTA COMPLETA DE PREGUNTAS (CASTELLANO)
+// =============================
+
+const questions = [
+    { letter:"A", word:"acuífero", hint:"Capa subterránea que almacena agua." },
+    { letter:"B", word:"barranco", hint:"Cauce natural profundo por donde corre agua cuando llueve mucho." },
+    { letter:"C", word:"cauce", hint:"Espacio por donde circula el agua de un río." },
+    { letter:"D", word:"depuración", hint:"Proceso para limpiar el agua de residuos." },
+    { letter:"E", word:"equidad", hint:"Garantizar acceso justo al agua para todas las personas." },
+    { letter:"F", word:"filtración", hint:"Proceso que elimina impurezas del agua." },
+    { letter:"G", word:"grifo", hint:"Aparato del que sale agua en casas y edificios." },
+    { letter:"H", word:"humedal", hint:"Zona natural donde el agua está presente de forma continua o temporal." },
+    { letter:"I", word:"inclusión", hint:"Asegurar que todas las personas tengan acceso al agua." },
+    { letter:"J", word:"jabón", hint:"Producto que se usa con agua para limpiar y eliminar gérmenes." },
+    { letter:"K", word:"kilolitro", hint:"Unidad de volumen que equivale a mil litros de agua." },
+    { letter:"L", word:"lluvia", hint:"Agua que cae de las nubes." },
+    { letter:"M", word:"manantial", hint:"Lugar donde brota agua naturalmente." },
+    { letter:"N", word:"nutrientes", hint:"Sustancias que el agua transporta y que permiten la vida." },
+    { letter:"O", word:"oasis", hint:"Lugar con agua y vegetación en zonas desérticas." },
+    { letter:"P", word:"potable", hint:"Agua que es segura para beber." },
+    { letter:"Q", word:"quebrada", hint:"Curso natural de agua pequeño." },
+    { letter:"R", word:"río", hint:"Corriente natural de agua dulce." },
+    { letter:"S", word:"saneamiento", hint:"Servicios que gestionan aguas usadas y residuos." },
+    { letter:"T", word:"tratamiento", hint:"Proceso para limpiar el agua y hacerla segura." },
+    { letter:"U", word:"umbral", hint:"Cantidad mínima de agua necesaria para vivir dignamente." },
+    { letter:"V", word:"vulnerable", hint:"Persona o grupo con dificultad para acceder al agua o servicios." },
+    { letter:"W", word:"wellness", hint:"Bienestar relacionado con la salud y la higiene (palabra en inglés)." },
+    { letter:"X", word:"xerófila", hint:"Planta adaptada a vivir con muy poca agua." },
+    { letter:"Y", word:"yacimiento", hint:"Lugar donde se encuentran recursos como el agua subterránea." },
+    { letter:"Z", word:"zanja", hint:"Abertura en el suelo por donde puede circular agua." }
+];
+
+
+// =============================
+//   VARIABLES
+// =============================
+let index = 0;
+let score = 0;
+
+
+// =============================
+//       INICIO DEL JUEGO
+// =============================
+function startGame() {
+    document.getElementById("start-screen").style.display = "none";
+}
+
+
+// =============================
+//      CREACIÓN DEL ROSCO
+// =============================
+const rosco = document.getElementById("rosco");
+const radius = 200;
+
+questions.forEach((q, i) => {
+    const angle = (i / 26) * 2 * Math.PI;
+    const x = radius * Math.cos(angle) + 225;
+    const y = radius * Math.sin(angle) + 225;
+
+    const div = document.createElement("div");
+    div.classList.add("letter");
+    div.id = "L" + i;
+    div.textContent = q.letter.toUpperCase();
+    div.style.left = x + "px";
+    div.style.top = y + "px";
+
+    rosco.appendChild(div);
+});
+
+document.getElementById("L0").classList.add("active");
+document.getElementById("question").textContent = questions[0].hint;
+
+
+// =============================
+//     COMPROBAR RESPUESTA
+// =============================
+function checkAnswer() {
+
+    const user = document.getElementById("answer").value.trim().toLowerCase();
+    const correct = questions[index].word.toLowerCase();
+    const letter = document.getElementById("L" + index);
+
+    if (user === correct) {
+        letter.classList.add("correct");
+        correctSound.play();
+        score++;
+        document.getElementById("score").textContent = "Puntuación: " + score + " aciertos";
+    } else {
+        letter.classList.add("wrong");
+        wrongSound.play();
+        alert("Incorrecto. La respuesta correcta es: " + correct);
+    }
+
+    nextQuestion();
+}
+
+
+// =============================
+//       PASAR PALABRA
+// =============================
+function skip() {
+    nextQuestion();
+}
+
+
+// =============================
+//       SIGUIENTE PREGUNTA
+// =============================
+function nextQuestion() {
+
+    document.getElementById("answer").value = "";
+    document.getElementById("L" + index).classList.remove("active");
+
+    do {
+        index++;
+        if (index >= 26) {
+            endGame();
+            return;
+        }
+    } while (
+        document.getElementById("L" + index).classList.contains("correct") ||
+        document.getElementById("L" + index).classList.contains("wrong")
+    );
+
+    document.getElementById("L" + index).classList.add("active");
+    document.getElementById("question").textContent = questions[index].hint;
+}
+
+
+// =============================
+//         FIN DEL JUEGO
+// =============================
+function endGame() {
+    document.getElementById("end-screen").style.display = "block";
+    document.getElementById("final-score").textContent =
+        "Tu puntuación final es: " + score + " de 26";
+}
+
+</script>
+</body>
+</html>
